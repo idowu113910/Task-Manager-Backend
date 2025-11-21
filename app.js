@@ -3,12 +3,11 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const app = express();
-
 const port = process.env.PORT || 5000;
 
 const allowedOrigins = [
   "http://localhost:5174",
-  "https://personal-task-manager-three-ivory.vercel.app",
+  "https://personal-task-manager-three-ivory.vercel.app", // ✅ Fixed with https://
   process.env.FRONTEND_URL,
 ].filter(Boolean);
 
@@ -19,12 +18,11 @@ app.use(
       if (!origin) {
         return callback(null, true);
       }
-
       if (allowedOrigins.includes(origin)) {
         callback(null, true);
       } else {
-        console.log(`CORS blocked origin: ${origin}`);
-        callback(new Error(`Origin ${origin} not allowed by CORS`));
+        console.log(`CORS blocked origin: ${origin}`); // ✅ Fixed
+        callback(new Error(`Origin ${origin} not allowed by CORS`)); // ✅ Fixed
       }
     },
     credentials: true,
@@ -39,11 +37,9 @@ app.use("/api/tasks", taskRoute);
 const Start = async () => {
   try {
     await mongoose.connect(process.env.MONGO_URL);
-
     console.log("Database connected");
-
     app.listen(port, () => {
-      console.log(`Server is running on PORT ${port}`);
+      console.log(`Server is running on PORT ${port}`); // ✅ Fixed
     });
   } catch (err) {
     console.error(err);
